@@ -1,6 +1,8 @@
-﻿using LMS.DataAccess;
+﻿using LMS.API.Helpers.Static;
+using LMS.DataAccess;
 using LMS.DataAccess.Entity;
 using LMS.DataAccess.Entity.ManyToManyReletionships;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -236,6 +238,66 @@ namespace LMS.API.Helpers
                         },
                     });
                     context.SaveChanges();
+                }
+            }
+        }
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                
+                // Roles
+                if(! await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                if (!await roleManager.RoleExistsAsync(UserRoles.Teacher))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher));
+                if (!await roleManager.RoleExistsAsync(UserRoles.Student))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Student));
+
+                //Users
+
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                string admin = "Admin";
+                var adminUser = await userManager.FindByNameAsync(admin);
+                if(adminUser == null)
+                {
+                    var newAdminUser = new ApplicationUser()
+                    {
+                        UserName = admin,
+                        Email = "Admin@site.com",
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(newAdminUser, "Qwert12!");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+
+                string teacher = "Teacher1";
+                var teacherUser = await userManager.FindByNameAsync(teacher);
+                if (teacherUser == null)
+                {
+                    var newAdminUser = new ApplicationUser()
+                    {
+                        UserName = teacher,
+                        Email = "teacher1@site.com",
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(newAdminUser, "Qwert12!");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+                string student = "Student";
+                var studentUser = await userManager.FindByNameAsync(student);
+                if (studentUser == null)
+                {
+                    var newAdminUser = new ApplicationUser()
+                    {
+                        UserName = student,
+                        Email = "Admin@site.com",
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(newAdminUser, "Qwert12!");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
                 }
             }
         }
