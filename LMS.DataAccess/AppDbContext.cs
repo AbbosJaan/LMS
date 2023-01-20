@@ -15,5 +15,10 @@ namespace LMS.DataAccess
 
         }
         DbSet<InformationMessage> InformationMessages { get; set; }
+
+        protected virtual void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
