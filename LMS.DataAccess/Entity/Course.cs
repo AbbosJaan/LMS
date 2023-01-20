@@ -17,7 +17,7 @@ namespace LMS.DataAccess.Entity
         public DateTime EndDate { get; set; }
 
         //Reletionships
-        public List<Student_Course>  Students_Courses { get; set; }
+        public List<Group_Course>  Group_Course { get; set; }
         public List<Topic> Topics { get; set; }
 
     }

@@ -15,9 +15,8 @@ namespace LMS.DataAccess.Entity
         public string Name { get; set; }
 
 
-        //Students
-        public List<Student> Students { get; set; }
-        public List<Teacher_Group> Teachers_Groups { get; set; }
+        //Reletionships
+        public List<Group_Course> Group_Course { get; set; }
 
     }
 }

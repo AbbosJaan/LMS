@@ -1,5 +1,6 @@
 ﻿using LMS.DataAccess.Entity;
 using LMS.DataAccess.Entity.ManyToManyReletionships;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LMS.DataAccess
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) : base(dbContextOptions)
         {
@@ -18,37 +19,26 @@ namespace LMS.DataAccess
         public DbSet<InformationMessage> InformationMessages { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Rate> Rates { get; set; }
-        public DbSet<Student_Course> Students_Courses { get; set; }
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Group_Course> Groups_Courses { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<Teacher_Group> Teachers_Groups { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Student_Course>().HasKey(am => new
+            modelBuilder.Entity<Group_Course>().HasKey(am => new
             {
-                am.StudentId,
+                am.GroupId,
                 am.CourseId
             });
 
-            modelBuilder.Entity<Student_Course>().HasOne(m => m.Student).WithMany(am => am.Students_Courses).HasForeignKey(m => m.StudentId);
-            modelBuilder.Entity<Student_Course>().HasOne(m => m.Course).WithMany(am => am.Students_Courses).HasForeignKey(m => m.CourseId);
+            modelBuilder.Entity<Group_Course>().HasOne(m => m.Group).WithMany(am => am.Group_Course).HasForeignKey(m => m.GroupId);
+            modelBuilder.Entity<Group_Course>().HasOne(m => m.Course).WithMany(am => am.Group_Course).HasForeignKey(m => m.CourseId);
 
 
 
 
-            modelBuilder.Entity<Teacher_Group>().HasKey(am => new
-            {
-                am.TeacherId,
-                am.GroupId
-            });
-            modelBuilder.Entity<Teacher_Group>().HasOne(t => t.Teacher).WithMany(t => t.Teachers_Groups).HasForeignKey(t => t.TeacherId);
-            modelBuilder.Entity<Teacher_Group>().HasOne(t => t.Group).WithMany(t => t.Teachers_Groups).HasForeignKey(t => t.GroupId);
-
+            
             base.OnModelCreating(modelBuilder);
         }
     }
