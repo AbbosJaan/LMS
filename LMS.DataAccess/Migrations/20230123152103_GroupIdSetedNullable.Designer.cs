@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230120174656_SomeTableDeleted")]
-    partial class SomeTableDeleted
+    [Migration("20230123152103_GroupIdSetedNullable")]
+    partial class GroupIdSetedNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,9 @@ namespace LMS.DataAccess.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -78,6 +81,8 @@ namespace LMS.DataAccess.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -322,6 +327,15 @@ namespace LMS.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("LMS.DataAccess.Entity.ApplicationUser", b =>
+                {
+                    b.HasOne("LMS.DataAccess.Entity.Group", "Group")
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId");
+
+                    b.Navigation("Group");
+                });
+
             modelBuilder.Entity("LMS.DataAccess.Entity.ManyToManyReletionships.Group_Course", b =>
                 {
                     b.HasOne("LMS.DataAccess.Entity.Course", "Course")
@@ -413,6 +427,8 @@ namespace LMS.DataAccess.Migrations
             modelBuilder.Entity("LMS.DataAccess.Entity.Group", b =>
                 {
                     b.Navigation("Group_Course");
+
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

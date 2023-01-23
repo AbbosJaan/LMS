@@ -50,7 +50,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//AppDbInitializer.Seed(app);
+AppDbInitializer.Seed(app);
 await AppDbInitializer.SeedUsersAndRolesAsync(app);
 
 app.Run();

@@ -284,17 +284,33 @@ namespace LMS.API.Helpers
                         EmailConfirmed = true,
                     };
                     await userManager.CreateAsync(newAdminUser, "Qwert12!");
-                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Teacher);
                 }
-                string student = "Student";
-                var studentUser = await userManager.FindByNameAsync(student);
-                if (studentUser == null)
+                string student1 = "Student1";
+                var student1User = await userManager.FindByNameAsync(student1);
+                if (student1User == null)
                 {
                     var newAdminUser = new ApplicationUser()
                     {
-                        UserName = student,
-                        Email = "Admin@site.com",
+                        UserName = student1,
+                        Email = "student1@site.com",
                         EmailConfirmed = true,
+                        GroupId = 1,
+                    };
+                    await userManager.CreateAsync(newAdminUser, "Qwert12!");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+
+                string student2 = "Student2";
+                var student2User = await userManager.FindByNameAsync(student2);
+                if (student2User == null)
+                {
+                    var newAdminUser = new ApplicationUser()
+                    {
+                        UserName = student2,
+                        Email = "student2@site.com",
+                        EmailConfirmed = true,
+                        GroupId = 1,
                     };
                     await userManager.CreateAsync(newAdminUser, "Qwert12!");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);

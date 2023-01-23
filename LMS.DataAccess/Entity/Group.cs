@@ -17,6 +17,7 @@ namespace LMS.DataAccess.Entity
 
         //Reletionships
         public List<Group_Course> Group_Course { get; set; }
+        public List<ApplicationUser> Students { get; set; }
 
     }
 }
