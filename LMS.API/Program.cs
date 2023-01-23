@@ -1,6 +1,8 @@
 using LMS.API.Helpers;
 using LMS.DataAccess;
+using LMS.DataAccess.Base;
 using LMS.DataAccess.Entity;
+using LMS.DataAccess.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefauldConnectionString")));
+
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ITopicService, TopicService>();
+
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+builder.Services.AddControllersWithViews();
 
 //Authentication
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
