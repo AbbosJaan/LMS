@@ -1,0 +1,18 @@
+﻿@using LMS.DataAccess.Entity;
+@model List<Group>;
+@{
+    ViewData["Title"] = "Groups";
+}
+
+@foreach (var item in @Model)
+{
+    @item.Id <br />
+    @item.Name <br />
+    foreach (var student in @item.Students)
+    {
+        @student.UserName <br />
+        @student.GroupId <br />
+    }
+    <br/>
+    <br/>
+}

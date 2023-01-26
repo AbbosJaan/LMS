@@ -11,8 +11,6 @@ namespace LMS.DataAccess.RequestEntity
 {
     public class GroupRequest
     {
-        [Key]
-        public int Id { get; set; }
         public string Name { get; set; }
 
 

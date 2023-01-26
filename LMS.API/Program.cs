@@ -19,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ITopicService, TopicService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 builder.Services.AddControllersWithViews();
