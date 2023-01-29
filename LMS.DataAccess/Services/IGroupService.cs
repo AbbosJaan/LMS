@@ -11,6 +11,6 @@ namespace LMS.DataAccess.Services
 {
     public interface IGroupService : IEntityBaseRepository<Group, GroupRequest>
     {
-
+        Task<IEnumerable<Group>> GetAllGroupsAsync();
     }
 }

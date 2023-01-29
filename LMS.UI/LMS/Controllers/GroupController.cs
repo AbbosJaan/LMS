@@ -13,7 +13,7 @@ namespace LMS.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var groups = await _service.GetAllAsync(n => n.Students);
+            var groups = await _service.GetAllGroupsAsync();
             return View(groups);
         }
     }

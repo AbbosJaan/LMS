@@ -11,7 +11,12 @@
     foreach (var student in @item.Students)
     {
         @student.UserName <br />
-        @student.GroupId <br />
+        //@student.GroupId <br />
+    }
+    foreach(var group_course in @item.Group_Course)
+    {
+        @group_course.Course.Name <br/>
+        @group_course.Course.Topics <br />
     }
     <br/>
     <br/>

@@ -36,9 +36,7 @@ namespace LMS.DataAccess.Base
 
         public async Task<IEnumerable<TOutput>> GetAllAsync(params Expression<Func<TOutput, object>>[] includeProperties)
         {
-            /*IQueryable<TOutput> query = _context.Set<TOutput>();
-            query = includeProperties.Aggregate(query, (current, includeProperties) => current.Include(includeProperties));
-            return await query.ToListAsync();*/
+
             IQueryable<TOutput> query = _context.Set<TOutput>();
             query = includeProperties.Aggregate(query, (current, includeProperties) => current.Include(includeProperties));
             return await query.ToListAsync();
