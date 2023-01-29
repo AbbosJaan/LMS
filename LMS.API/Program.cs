@@ -1,5 +1,10 @@
 using LMS.API.Helpers;
 using LMS.DataAccess;
+using LMS.DataAccess.Base;
+using LMS.DataAccess.Entity;
+using LMS.DataAccess.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +17,24 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefauldConnectionString")));
 
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ITopicService, TopicService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
+
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+builder.Services.AddControllersWithViews();
+
+//Authentication
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+/*builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+});
+*/
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,10 +46,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 AppDbInitializer.Seed(app);
+await AppDbInitializer.SeedUsersAndRolesAsync(app);
 
 app.Run();

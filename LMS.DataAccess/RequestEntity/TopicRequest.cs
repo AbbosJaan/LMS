@@ -1,12 +1,13 @@
-﻿using System;
+﻿using LMS.DataAccess.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.DataAccess.Entity
+namespace LMS.DataAccess.RequestEntity
 {
-    public class Topic
+    public class TopicRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -15,6 +15,6 @@ namespace LMS.DataAccess.Entity.ManyToManyReletionships
 
         //Group connection
         public int GroupId { get; set; }
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
     }
 }

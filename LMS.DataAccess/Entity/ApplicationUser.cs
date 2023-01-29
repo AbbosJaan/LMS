@@ -10,5 +10,7 @@ namespace LMS.DataAccess.Entity
     public class ApplicationUser : IdentityUser
     {
         //public UserCategory UserCategory { get; set; }
+        public int? GroupId { get; set; }    
+        public virtual Group Group { get; set; }
     }
 }
